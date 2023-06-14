@@ -1,0 +1,34 @@
+network:
+  img_model: resnet50
+  ### this part does not control builder/trainer
+  text_model: bert
+  free_layers: 9 # set 12 to freeze all layer in bert
+  text_model_arch: general # specialized/general
+  feature_dim: 768
+
+  projection_head:
+    mlp_hidden_size: 2048
+    projection_size: 768
+  ###
+
+img_path: 'xx' # add your image file path here
+text_path: 'xx' # add your text file path here
+
+# params for trainer
+trainer:
+  batch_size: 256
+  test_batch_size: 200
+  checkpoint_interval: 100000
+  max_epochs: 50
+  lr: 2.0e-5
+  num_workers: 8
+  test_interval: 2
+
+optimizer:
+  params:
+    lr: 2.0e-5
+    # momentum: 0.9
+    weight_decay: 5.0e-2
+
+# your model name
+wandb_name: 'xx'
