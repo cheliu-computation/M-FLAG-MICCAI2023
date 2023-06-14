@@ -1,6 +1,6 @@
 # M-FLAG-MICCAI2023
 
-[Multi-Granularity Cross-modal Alignment for Generalized Medical Visual Representation Learning](link), MICCAI 2023.
+[M-FLAG: Medical Vision-Language Pre-training with Frozen Language Models and Latent Space Geometry Optimization](link), MICCAI 2023.
 
 ###  Installation
 To clone this repository:
