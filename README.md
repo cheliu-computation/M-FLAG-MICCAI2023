@@ -18,7 +18,7 @@ Datasets we used are as follows:
 - **MIMIC-CXR**: We downloaded the [MIMIC-CXR-JPG](https://physionet.org/content/mimic-cxr-jpg/2.0.0/) dataset as the radiographs. Paired medical reports can be downloaded in [MIMIC-CXR](https://physionet.org/content/mimic-cxr/2.0.0/mimic-cxr-reports.zip).
 
 ### Preprocessing
-- First we follow [MGCA](https://github.com/HKU-MedAI/MGCA) preprocessing to extract all CXR scans associated with report. You can find in [Preprocessing](https://github.com/HKU-MedAI/MGCA/blob/main/mgca/preprocess/mimic_cxr.py). 
+- First we follow [MGCA](https://github.com/HKU-MedAI/MGCA) preprocessing to extract a master csv includes all CXR scans associated with report. You can find in [Preprocessing](https://github.com/HKU-MedAI/MGCA/blob/main/mgca/preprocess/mimic_cxr.py). 
 - Then, run 'ext_data.py' to extract all scans and save as a npy file. It will accelerate the pre-training stage.
 
 ### Pre-training
