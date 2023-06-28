@@ -8,8 +8,6 @@ import pandas as pd
 from torch.utils.data.dataloader import DataLoader
 # import wandb
 import utils_builder
-from dcl_loss import DCL, DCLW
-# from sklearn.metrics import roc_auc_score
 import math
 from torch.cuda.amp import autocast as autocast
 from torch.cuda.amp import GradScaler as GradScaler
@@ -33,15 +31,12 @@ class trainer_wBert:
         self.optimizer = optimizer
         self.device = device
         self.model_name = model_name
-        self.loss_type = args['loss']
         self.train_batch_size = args['batch_size']
         self.test_batch_size = args['test_batch_size']
         self.max_epochs = args['max_epochs']
         self.lr_max = args['lr']
         self.num_workers = args['num_workers']
         self.checkpoint_interval = args['checkpoint_interval']
-        self.smooth = args['smooth']
-        self.prior_ratio = args['ratio']
 
     def orthogonal_loss(self, x1, x2):
         def off_diagonal(x):
@@ -74,7 +69,7 @@ class trainer_wBert:
                                   drop_last=True, shuffle=False,
                                   sampler=DistributedSampler(train_dataset))
 
-        model_checkpoints_folder = os.path.join('./checkpoints', self.model_name)
+        model_checkpoints_folder = os.path.join('../checkpoints')
         if not os.path.exists(model_checkpoints_folder):
             print('create directory "{}" for save checkpoint!'.format(
                 model_checkpoints_folder))
@@ -117,9 +112,9 @@ class trainer_wBert:
         for epoch_counter in tqdm(range(start_epoch, self.max_epochs+1)):
 
             epoch_loss = 0
-            epoch_loss_orthogonal, epoch_loss_align = 0, 0, 0
+            epoch_loss_orthogonal, epoch_loss_align = 0, 0
 
-            for data in (train_loader):
+            for data in tqdm(train_loader):
                 # get raw text
                 imp = data['raw_text']
 
@@ -150,11 +145,11 @@ class trainer_wBert:
                     epoch_loss_orthogonal += loss_orthogonoal.item()
                     epoch_loss_align += loss_align.item()
                     
-                    if self.device == 0:
-                        print(
-                            f'epoch {epoch_counter} iter {niter} loss is {loss.item()},\
-                            orthogonal loss is {loss_orthogonoal.item()},\
-                            align loss is {loss_align.item()}')
+                    # if self.device == 0:
+                    #     print(
+                    #         f'epoch {epoch_counter} iter {niter} loss is {loss.item()},\
+                    #         orthogonal loss is {loss_orthogonoal.item()},\
+                    #         align loss is {loss_align.item()}')
 
 
                     scaler.scale(loss).backward()

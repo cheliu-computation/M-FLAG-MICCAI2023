@@ -2,7 +2,7 @@ network:
   img_model: resnet50
   ### this part does not control builder/trainer
   text_model: bert
-  free_layers: 9 # set 12 to freeze all layer in bert
+  free_layers: 12 # set 12 to freeze all layer in bert
   text_model_arch: general # specialized/general
   feature_dim: 768
 
@@ -11,15 +11,17 @@ network:
     projection_size: 768
   ###
 
-img_path: 'xx' # add your image file path here
-text_path: 'xx' # add your text file path here
+# img_path: 'xx' # add your image file path here
+# text_path: 'xx' # add your text file path here
+img_path: '/data/che/cxr_vlp_data/english_pretrain/only_imp.npy' # add your image file path here
+text_path: '/data/che/cxr_vlp_data/english_pretrain/200k_find_imp.csv' # add your text file path here
 
 # params for trainer
 trainer:
   batch_size: 256
   test_batch_size: 200
   checkpoint_interval: 100000
-  max_epochs: 50
+  max_epochs: 1
   lr: 2.0e-5
   num_workers: 8
   test_interval: 2

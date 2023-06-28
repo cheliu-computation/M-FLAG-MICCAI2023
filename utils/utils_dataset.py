@@ -39,7 +39,7 @@ class IaT_embed_dataset(Dataset):
         if self.transform:
             # for 2 branch contrastive vision model (not useful for CLIP)
             if self.mode == 'train':
-                sample['image'] = self.transform[0](sample['image'])
+                sample['image'] = self.transform(sample['image'])
 
         return sample
 
@@ -58,29 +58,23 @@ class I_T_emb_dataset:
             print('Apply Train-stage Transform!')
 
             Transforms = transforms.Compose([
-                transforms.ToTensor(),
                 transforms.RandomCrop(224),
                 transforms.RandomRotation(degrees=(0, 90)),
                 transforms.RandomGrayscale(p=0.5),
                 transforms.RandomPerspective(distortion_scale=0.5,
                                                 p=0.5,
                                                 interpolation=3),
-                transforms.RandomAffine(degrees=0,
-                                        translate=(0.1, 0.1),
-                                        scale=(0.9, 1.1),
-                                        shear=10,
-                                        resample=False,
-                                        fillcolor=0),
                 transforms.RandomAutocontrast(p=0.5),
+                transforms.ToTensor(),
                 normalize
             ])
         else:
             print('No test stage in pretrain!')
 
         img_path = np.load(
-            self.image_path['img_path'], allow_pickle=True, mmap_mode='r')
+            self.image_path, allow_pickle=True, mmap_mode='r')
         csv_path = pd.read_csv(
-            self.csv_path['text_path'], low_memory=False)
+            self.csv_path, low_memory=False)
 
         misc_args = {'train_test': train_test,
                    'text': csv_path}

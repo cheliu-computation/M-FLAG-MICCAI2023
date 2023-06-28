@@ -51,14 +51,19 @@ class ResNet_CXRBert(torch.nn.Module):
 
         return tokenizer_output
 
+    @torch.no_grad()
+    def get_text_emb(self, input_ids, attention_mask):
+        text_emb = self.lm_model(input_ids=input_ids,
+                                 attention_mask=attention_mask).last_hidden_state
+        return text_emb
+    
     def forward(self, img, input_ids, attention_mask):
         img_emb = self.encoder(img)
         # reshape to (b, 2048)
         img_emb = img_emb.view(img_emb.shape[0], img_emb.shape[1])
 
         # pooler_output: [b, 1, 768]
-        text_emb = self.lm_model(input_ids=input_ids,
-                                 attention_mask=attention_mask).last_hidden_state
+        text_emb = self.get_text_emb(input_ids, attention_mask)
 
         # project to 512 dim
         proj_img_emb = self.proj_v(img_emb)
