@@ -21,7 +21,7 @@ Brotli==1.0.9
 brotlipy==0.7.0
 cachetools==5.2.0
 catalogue==2.0.7
-certifi==2021.10.8
+certifi==2023.7.22
 cffi @ file:///opt/conda/conda-bld/cffi_1642701102775/work
 chardet==4.0.0
 charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
